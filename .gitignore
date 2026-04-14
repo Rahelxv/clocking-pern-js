@@ -1,0 +1,7 @@
+node_modules/
+.env
+dist/
+clocking/node_modules/
+clocking/dist/
+server/node_modules/
+server/.env
