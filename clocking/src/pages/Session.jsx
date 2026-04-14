@@ -7,7 +7,7 @@ function Session() {
   const [pesan, setPesan] = useState("LOADING DATA...");
   const [activeCategory, setActiveCategory] = useState(null);
 
-  // Helper untuk format waktu (Jam:Menit:Detik)
+  // Helper untuk format waktu durasi (Jam:Menit:Detik)
   const formatTime = (timeInMs) => {
     const hours = Math.floor(timeInMs / (1000 * 60 * 60));
     const minutes = Math.floor((timeInMs / (1000 * 60)) % 60);
@@ -16,10 +16,22 @@ function Session() {
     return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   };
 
+  // FORMAT BARU: Tanggal + Jam (6:00 PM)
   const formatBoxDate = (timestamp) => {
     if (!timestamp) return "N/A";
     const date = new Date(parseInt(timestamp));
-    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
+    // Menggunakan toLocaleString untuk mendapatkan format "14/4/2026, 6:00 PM"
+    return date
+      .toLocaleString("en-GB", {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true, // Mengaktifkan format AM/PM
+      })
+      .toUpperCase();
   };
 
   useEffect(() => {
@@ -48,7 +60,6 @@ function Session() {
     fetchHistory();
   }, []);
 
-  // Grouping data + Hitung Total Durasi per Kategori
   const groupedData = history.reduce((acc, item) => {
     const key = item.name || "UNNAMED_TASK";
     if (!acc[key]) {
@@ -75,7 +86,6 @@ function Session() {
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([nama, data]) => (
               <div key={nama} style={{ marginBottom: "15px" }}>
-                {/* TOMBOL LABEL DENGAN TOTAL WAKTU */}
                 <div
                   className={style.categoryLabel}
                   onClick={() => toggleCategory(nama)}
@@ -86,7 +96,6 @@ function Session() {
                   </span>
                 </div>
 
-                {/* GRID KOTAK STOPWATCH */}
                 {activeCategory === nama && (
                   <div className={style.sessionGrid}>
                     {data.items
