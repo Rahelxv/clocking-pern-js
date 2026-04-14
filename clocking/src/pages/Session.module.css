@@ -1,0 +1,111 @@
+.container {
+  padding: 85px 40px 40px 40px; /* Dikurangi dari 100px */
+  min-height: 100vh;
+  background: #000;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+}
+.message {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 100px;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+
+/* --- KATEGORI / ACCORDION LABEL --- */
+.categoryLabel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 25px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 320px;
+  max-width: fit-content;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  margin-bottom: 10px;
+}
+
+.categoryLabel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(5px);
+}
+
+.nameText {
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.totalDuration {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 15px;
+  margin-left: 30px;
+}
+
+/* --- GRID & BOXES --- */
+.sessionGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px 0 40px 15px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.stopwatchBox {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 30px 20px;
+  width: 320px;
+  position: relative;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.stopwatchBox:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.timeDisplay {
+  font-size: 34px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  /* Efek Glow minimalis */
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.dateDisplay {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 20px;
+  letter-spacing: 1.5px;
+  text-align: left;
+}

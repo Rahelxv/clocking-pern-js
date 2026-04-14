@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  flex-wrap: wrap; /* Kunci agar menyamping lalu ke bawah */
+  gap: 20px;
+  padding: 40px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-height: calc(100vh - 70px);
+}

@@ -1,0 +1,90 @@
+.btn {
+  width: 260px; /* Samakan dengan lebar kartu Stopwatch agar rapi */
+  height: 180px; /* Sesuaikan dengan tinggi rata-rata kartu */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px dashed rgba(255, 255, 255, 0.1); /* Garis putus-putus khas 'Add' */
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efek Glossy / Pantulan Cahaya */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+/* Simbol Plus (+) menggunakan CSS murni */
+.plusIcon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.plusIcon::before,
+.plusIcon::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 10px;
+}
+
+/* Garis Horizontal */
+.plusIcon::before {
+  width: 24px;
+  height: 3px;
+}
+
+/* Garis Vertikal */
+.plusIcon::after {
+  width: 3px;
+  height: 24px;
+}
+
+.btn:hover .plusIcon {
+  opacity: 1;
+}
+
+.label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+}

@@ -1,0 +1,48 @@
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px;
+  border-radius: 20px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
+
+.header { display: flex; justify-content: space-between; align-items: center; }
+
+.tagName { font-size: 10px; color: rgba(255, 255, 255, 0.4); letter-spacing: 1.5px; }
+
+.closeBtn { background: none; border: none; color: white; cursor: pointer; font-size: 18px; opacity: 0.5; }
+.closeBtn:hover { opacity: 1; color: #ff6b6b; }
+
+.display {
+  font-family: 'Courier New', Courier, monospace; /* Font digital feel */
+  font-size: 28px;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  letter-spacing: 1px;
+}
+
+.controls { display: flex; gap: 8px; }
+
+.startBtn, .stopBtn, .resetBtn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 1px;
+  transition: 0.2s;
+}
+
+.startBtn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
+.stopBtn { background: rgba(255, 100, 100, 0.1); border: 1px solid rgba(255, 100, 100, 0.3); color: #ff8080; }
+.resetBtn { background: transparent; border: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.3); }
+
+.startBtn:hover { background: white; color: black; }
