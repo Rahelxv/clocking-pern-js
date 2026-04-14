@@ -27,18 +27,21 @@ function Basic() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5000/api/sessions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/sessions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: item.name,
+            duration: time,
+            endTime: endTime,
+          }),
         },
-        body: JSON.stringify({
-          name: item.name,
-          duration: time,
-          endTime: endTime,
-        }),
-      });
+      );
 
       if (response.ok) {
         addHistory({ ...item, duration: time, endTime: endTime });

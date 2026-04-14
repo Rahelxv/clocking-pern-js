@@ -26,10 +26,13 @@ function Session() {
     async function fetchHistory() {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("http://localhost:5000/api/sessions", {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/sessions`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
         if (response.ok) {
           const data = await response.json();
