@@ -6,24 +6,20 @@ import Popup from "./Popup";
 import { HistoryContext } from "../context/HistoryContext";
 
 function Basic() {
-  const { addHistory, addstopwatch, setAddStopwatch } =
+  const { addHistory, addstopwatch, setAddStopwatch, updateStopwatchTime } =
     useContext(HistoryContext);
   const [popup, setPopup] = useState(false);
 
   function addstp(nama) {
-    const newStopwatch = {
-      id: Date.now(),
-      name: nama || "non-session-tag",
-      // KUNCI: Simpan waktu mulai saat ini
-      startTime: Date.now(),
-      initialTime: 0,
-    };
-    setAddStopwatch([...addstopwatch, newStopwatch]);
+    setAddStopwatch([
+      ...addstopwatch,
+      { id: Date.now(), name: nama || "non-session-tag", time: 0 },
+    ]);
     setPopup(false);
   }
 
   async function deleted(id, time) {
-    const item = addstopwatch.find((i) => i.id === id);
+    const item = addstopwatch.find((item) => item.id === id);
     const endTime = Date.now();
     const token = localStorage.getItem("token");
 
@@ -46,32 +42,30 @@ function Basic() {
 
       if (response.ok) {
         addHistory({ ...item, duration: time, endTime: endTime });
-        setAddStopwatch(addstopwatch.filter((i) => i.id !== id));
+        setAddStopwatch(addstopwatch.filter((item) => item.id !== id));
       }
     } catch (error) {
-      console.error("Error saving session:", error);
+      console.error(error);
     }
   }
 
   return (
     <div className={style.container}>
       {popup && <Popup onCreate={addstp} onCancel={() => setPopup(false)} />}
-
       {addstopwatch.length === 0 && <Add addSession={() => setPopup(true)} />}
-
       {addstopwatch.map((item) => (
         <Stopwatch
           key={item.id}
           name={item.name}
-          // Kirim startTime agar stopwatch tahu harus mulai dari detik ke berapa
-          startTime={item.startTime}
+          initialTime={item.time || 0} // Ambil waktu terakhir dari context
+          onTimeUpdate={(currentTime) =>
+            updateStopwatchTime(item.id, currentTime)
+          } // Lapor ke context
           fDeleted={(time) => deleted(item.id, time)}
         />
       ))}
-
       {addstopwatch.length > 0 && <Add addSession={() => setPopup(true)} />}
     </div>
   );
 }
-
 export default Basic;
