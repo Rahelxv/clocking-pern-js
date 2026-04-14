@@ -14,17 +14,16 @@ function Basic() {
     const newStopwatch = {
       id: Date.now(),
       name: nama || "non-session-tag",
+      // KUNCI: Simpan waktu mulai saat ini
+      startTime: Date.now(),
+      initialTime: 0,
     };
     setAddStopwatch([...addstopwatch, newStopwatch]);
     setPopup(false);
   }
 
-  function addpopup() {
-    setPopup(true);
-  }
-
   async function deleted(id, time) {
-    const item = addstopwatch.find((item) => item.id === id);
+    const item = addstopwatch.find((i) => i.id === id);
     const endTime = Date.now();
     const token = localStorage.getItem("token");
 
@@ -47,13 +46,10 @@ function Basic() {
 
       if (response.ok) {
         addHistory({ ...item, duration: time, endTime: endTime });
-        // Hapus dari list aktif (otomatis update localStorage lewat Context)
-        setAddStopwatch(addstopwatch.filter((item) => item.id !== id));
-        console.log("Session saved successfully!");
+        setAddStopwatch(addstopwatch.filter((i) => i.id !== id));
       }
     } catch (error) {
-      console.error("Failed to save session:", error);
-      alert("Failed to save to server.");
+      console.error("Error saving session:", error);
     }
   }
 
@@ -61,19 +57,19 @@ function Basic() {
     <div className={style.container}>
       {popup && <Popup onCreate={addstp} onCancel={() => setPopup(false)} />}
 
-      {/* Tampilkan tombol Add di awal jika kosong */}
-      {addstopwatch.length === 0 && <Add addSession={addpopup} />}
+      {addstopwatch.length === 0 && <Add addSession={() => setPopup(true)} />}
 
       {addstopwatch.map((item) => (
         <Stopwatch
           key={item.id}
           name={item.name}
+          // Kirim startTime agar stopwatch tahu harus mulai dari detik ke berapa
+          startTime={item.startTime}
           fDeleted={(time) => deleted(item.id, time)}
         />
       ))}
 
-      {/* Tampilkan tombol Add di akhir jika ada list */}
-      {addstopwatch.length > 0 && <Add addSession={addpopup} />}
+      {addstopwatch.length > 0 && <Add addSession={() => setPopup(true)} />}
     </div>
   );
 }

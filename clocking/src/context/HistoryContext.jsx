@@ -5,13 +5,13 @@ export const HistoryContext = createContext();
 export const HistoryProvider = ({ children }) => {
   const [history, setHistory] = useState([]);
 
-  // State untuk menyimpan list stopwatch yang sedang aktif/running
+  // State untuk menyimpan list stopwatch aktif
   const [addstopwatch, setAddStopwatch] = useState(() => {
     const saved = localStorage.getItem("active_sessions");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Sinkronkan ke LocalStorage setiap ada perubahan list
+  // Sinkronkan ke LocalStorage
   useEffect(() => {
     localStorage.setItem("active_sessions", JSON.stringify(addstopwatch));
   }, [addstopwatch]);
