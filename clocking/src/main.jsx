@@ -12,6 +12,21 @@ import Register from "./pages/Register.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import "./index.css";
 
+// --- TAMBAHKAN REGISTER PWA DI SINI ---
+import { registerSW } from "virtual:pwa-register";
+
+const updateSW = registerSW({
+  onNeedRefresh() {
+    if (confirm("Aplikasi diperbarui. Muat ulang sekarang?")) {
+      updateSW(true);
+    }
+  },
+  onOfflineReady() {
+    console.log("Aplikasi siap digunakan offline!");
+  },
+});
+// --------------------------------------
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,7 +36,6 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: (
-      //melindungi stopwatch dari orang tanpa token
       <ProtectedRoute>
         <App />
       </ProtectedRoute>
@@ -33,7 +47,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/session",
-    //melindungi stopwatch dari orang tanpa token
     element: (
       <ProtectedRoute>
         <Session />
