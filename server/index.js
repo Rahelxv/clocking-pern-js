@@ -84,7 +84,7 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user.rows[0].id, email: user.rows[0].email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" },
+      { expiresIn: "3d" }, //update to 3 days
     );
     //parse token to user
     res.status(200).json({
