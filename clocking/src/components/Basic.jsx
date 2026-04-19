@@ -19,35 +19,46 @@ function Basic() {
   }
 
   async function deleted(id, time) {
-    const item = addstopwatch.find((item) => item.id === id);
-    const endTime = Date.now();
-    const token = localStorage.getItem("token");
+  const item = addstopwatch.find((item) => item.id === id);
+  const endTime = Date.now();
+  const token = localStorage.getItem("token");
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/sessions`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name: item.name,
-            duration: time,
-            endTime: endTime,
-          }),
-        },
-      );
-
-      if (response.ok) {
-        addHistory({ ...item, duration: time, endTime: endTime });
-        setAddStopwatch(addstopwatch.filter((item) => item.id !== id));
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  if (time < 1000) {
+    setAddStopwatch((prev) => prev.filter((i) => i.id !== id));
+    return;
   }
+
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/sessions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: item.name,
+          duration: time,
+          endTime: endTime,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      addHistory({ ...item, duration: time, endTime: endTime });
+      setAddStopwatch((prev) => prev.filter((i) => i.id !== id));
+    } else if (response.status === 401 || response.status === 403) {
+      alert("Sesi login berakhir. Silakan login ulang untuk menyimpan log.");
+    } else {
+      const errData = await response.json();
+      alert(`Gagal menyimpan: ${errData.error || "Server error"}`);
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+    alert("Koneksi terputus. Data tidak bisa disimpan ke server.");
+  }
+}
 
   return (
     <div className={style.container}>
