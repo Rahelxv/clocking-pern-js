@@ -13,19 +13,15 @@ export const HistoryProvider = ({ children }) => {
     localStorage.setItem("active_sessions", JSON.stringify(addstopwatch));
   }, [addstopwatch]);
 
+  // Fungsi baru: Update waktu di list tanpa ngerusak data lain
   const updateStopwatchTime = (id, currentTime) => {
     setAddStopwatch((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, time: currentTime } : s))
+      prev.map((s) => (s.id === id ? { ...s, time: currentTime } : s)),
     );
   };
 
   const addHistory = (item) => {
     setHistory((prev) => [item, ...prev]);
-  };
-
-  const clearActiveSessions = () => {
-    setAddStopwatch([]);
-    localStorage.removeItem("active_sessions");
   };
 
   return (
@@ -36,7 +32,6 @@ export const HistoryProvider = ({ children }) => {
         addstopwatch,
         setAddStopwatch,
         updateStopwatchTime,
-        clearActiveSessions, 
       }}
     >
       {children}
